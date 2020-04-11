@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mobx/mobx.dart';
 import 'package:pokedex/model/poke_api.dart';
+import 'package:pokedex/resources/values/api_url.dart';
 
 part 'poke_api_store.g.dart';
 
@@ -25,14 +26,8 @@ abstract class _PokeApiStoreBase with Store {
   }
 
   Future<PokeAPI> loadPokeApi() async {
-    try {
-      final response = await http.get(
-          "https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json");
-
-      final dynamic decodeJson = jsonDecode(response.body);
-      return PokeAPI.fromJson(decodeJson);
-    } catch (error, stacktrace) {
-      return new PokeAPI();
-    }
+    final response = await http.get(URLApi.UIR_POKEDEX);
+    final dynamic decodeJson = jsonDecode(response.body);
+    return PokeAPI.fromJson(decodeJson);
   }
 }
