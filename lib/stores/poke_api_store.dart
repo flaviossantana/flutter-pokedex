@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobx/mobx.dart';
 import 'package:pokedex/model/poke_api.dart';
@@ -25,9 +27,24 @@ abstract class _PokeApiStoreBase with Store {
     });
   }
 
+  @action
+  getPokemom(int idx) {
+    return pokeapi.pokemon[idx];
+  }
+
   Future<PokeAPI> loadPokeApi() async {
     final response = await http.get(URLApi.UIR_POKEDEX);
     final dynamic decodeJson = jsonDecode(response.body);
     return PokeAPI.fromJson(decodeJson);
+  }
+
+  Widget getImg(String numero) {
+    return CachedNetworkImage(
+      placeholder: (c, u) => new Container(
+        color: Colors.transparent,
+      ),
+      imageUrl:
+          'https://raw.githubusercontent.com/fanzeyi/pokemon.json/master/images/$numero.png',
+    );
   }
 }
