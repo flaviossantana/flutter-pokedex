@@ -28,8 +28,9 @@ class PokeItem extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('Pokemom'),
+              child: Text(nome),
             ),
+            imagem,
           ],
         ),
       ),

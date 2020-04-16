@@ -30,7 +30,11 @@ class PokemonList extends StatelessWidget {
                       duration: Duration(milliseconds: 375),
                       child: ScaleAnimation(
                           child: GestureDetector(
-                        child: PokeItem(),
+                        child: PokeItem(
+                          index: idx,
+                          nome: pokemon.name,
+                          imagem: apiStore.getImg(pokemon.num),
+                        ),
                         onTap: () {
                           Scaffold.of(context).showSnackBar(
                             SnackBar(

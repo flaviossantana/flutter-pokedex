@@ -38,6 +38,7 @@ abstract class _PokeApiStoreBase with Store {
     return PokeAPI.fromJson(decodeJson);
   }
 
+  @action
   Widget getImg(String numero) {
     return CachedNetworkImage(
       placeholder: (c, u) => new Container(

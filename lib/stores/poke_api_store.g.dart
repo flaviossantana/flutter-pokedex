@@ -50,6 +50,16 @@ mixin _$PokeApiStore on _PokeApiStoreBase, Store {
   }
 
   @override
+  Widget getImg(String numero) {
+    final _$actionInfo = _$_PokeApiStoreBaseActionController.startAction();
+    try {
+      return super.getImg(numero);
+    } finally {
+      _$_PokeApiStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     final string = 'pokeapi: ${pokeapi.toString()}';
     return '{$string}';
