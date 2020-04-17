@@ -33,7 +33,8 @@ class PokemonList extends StatelessWidget {
                         child: PokeItem(
                           index: idx,
                           nome: pokemon.name,
-                          imagem: apiStore.getImg(pokemon.num),
+                          types: pokemon.type,
+                          num: pokemon.num,
                         ),
                         onTap: () {
                           Scaffold.of(context).showSnackBar(

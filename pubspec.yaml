@@ -79,5 +79,5 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 
 scripts:
-  build_watch: flutter pub run build_runner watch
+  watch: flutter pub run build_runner watch
   clean: flutter pu run build_runner clean

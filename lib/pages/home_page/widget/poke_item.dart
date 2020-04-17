@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/core/UtilColors.dart';
+import 'package:pokedex/core/UtilImage.dart';
+import 'package:pokedex/pages/home_page/widget/pokemom_tipos_list.dart';
+import 'package:pokedex/resources/values/ui_image.dart';
+import 'package:pokedex/resources/values/ui_text.dart';
 
 class PokeItem extends StatelessWidget {
   final String nome;
   final int index;
   final Color color;
-  final Widget imagem;
+  final String num;
+  final List<String> types;
 
-  PokeItem({
+  const PokeItem({
     this.nome,
     this.index,
     this.color,
-    this.imagem,
+    this.types,
+    this.num,
   });
 
   @override
@@ -19,19 +26,54 @@ class PokeItem extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.red,
+          color: UtilColors.getColorType(type: types[0]),
           borderRadius: BorderRadius.all(
             Radius.circular(20.0),
           ),
         ),
-        child: Stack(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(nome),
-            ),
-            imagem,
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Stack(
+            children: <Widget>[
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Opacity(
+                  opacity: 0.2,
+                  child: Image.asset(
+                    UIImage.POKEBALL,
+                    width: 110,
+                    height: 110,
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: UtilImage.getImg(
+                  num,
+                  height: 100,
+                  width: 100,
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: UIText.textPrimary(
+                      nome.trim(),
+                      fontSize: 16,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 6.0),
+                    child: PokemonTipos(
+                      types: types,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
