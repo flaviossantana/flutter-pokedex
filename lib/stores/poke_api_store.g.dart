@@ -40,7 +40,7 @@ mixin _$PokeApiStore on _PokeApiStoreBase, Store {
   }
 
   @override
-  dynamic getPokemom(int idx) {
+  Pokemon getPokemom(int idx) {
     final _$actionInfo = _$_PokeApiStoreBaseActionController.startAction();
     try {
       return super.getPokemom(idx);

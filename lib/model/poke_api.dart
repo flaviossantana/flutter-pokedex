@@ -1,3 +1,5 @@
+import 'package:pokedex/core/UtilColors.dart';
+
 class PokeAPI {
   List<Pokemon> pokemon;
 
@@ -46,6 +48,10 @@ class Pokemon {
       this.egg,
       this.nextEvolution,
       this.prevEvolution});
+
+  getColor() {
+    return UtilColors.getColorType(type: this.type[0]);
+  }
 
   Pokemon.fromJson(Map<String, dynamic> json) {
     id = json['id'];

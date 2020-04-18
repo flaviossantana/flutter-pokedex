@@ -3,14 +3,15 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:pokedex/model/poke_api.dart';
 import 'package:pokedex/pages/home_page/widget/poke_item.dart';
+import 'package:pokedex/pages/poke_detail/poke_detail_page.dart';
 import 'package:pokedex/stores/poke_api_store.dart';
+import 'package:provider/provider.dart';
 
 class PokemonList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    PokeApiStore apiStore = PokeApiStore();
+    final apiStore = Provider.of<PokeApiStore>(context);
     apiStore.fetchPokemonList();
-
     return Expanded(
       child: Container(
         child: Observer(
@@ -37,9 +38,15 @@ class PokemonList extends StatelessWidget {
                           num: pokemon.num,
                         ),
                         onTap: () {
-                          Scaffold.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Clique.'),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              fullscreenDialog: true,
+                              builder: (BuildContext context) {
+                                return PokeDetailPage(
+                                  idx: idx,
+                                );
+                              },
                             ),
                           );
                         },

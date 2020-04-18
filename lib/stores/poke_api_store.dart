@@ -22,20 +22,22 @@ abstract class _PokeApiStoreBase with Store {
 
   @action
   fetchPokemonList() {
-    loadPokeApi().then((pokelist) {
-      this.pokeapi = pokelist;
-    });
-  }
-
-  @action
-  getPokemom(int idx) {
-    return pokeapi.pokemon[idx];
+    if (this.pokeapi.pokemon.isEmpty) {
+      loadPokeApi().then((pokelist) {
+        this.pokeapi = pokelist;
+      });
+    }
   }
 
   Future<PokeAPI> loadPokeApi() async {
     final response = await http.get(URLApi.UIR_POKEDEX);
     final dynamic decodeJson = jsonDecode(response.body);
     return PokeAPI.fromJson(decodeJson);
+  }
+
+  @action
+  Pokemon getPokemom(int idx) {
+    return pokeapi.pokemon[idx];
   }
 
   @action
