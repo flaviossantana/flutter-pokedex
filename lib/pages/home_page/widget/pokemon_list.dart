@@ -22,7 +22,7 @@ class PokemonList extends StatelessWidget {
                   addAutomaticKeepAlives: true,
                   gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2),
-                  itemCount: apiStore.pokeapi.pokemon.length,
+                  itemCount: apiStore.pokeApi.pokemon.length,
                   itemBuilder: (c, idx) {
                     Pokemon pokemon = apiStore.getPokemom(idx);
                     return AnimationConfiguration.staggeredGrid(
@@ -43,6 +43,7 @@ class PokemonList extends StatelessWidget {
                             MaterialPageRoute(
                               fullscreenDialog: true,
                               builder: (BuildContext context) {
+                                apiStore.setPokemonAtual(idx);
                                 return PokeDetailPage(
                                   idx: idx,
                                 );

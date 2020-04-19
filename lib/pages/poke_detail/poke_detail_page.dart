@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pokedex/core/UtilImage.dart';
-import 'package:pokedex/model/poke_api.dart';
 import 'package:pokedex/resources/values/ui_text.dart';
 import 'package:pokedex/stores/poke_api_store.dart';
 import 'package:provider/provider.dart';
@@ -14,12 +14,19 @@ class PokeDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PokeApiStore _pokeApiStore = Provider.of<PokeApiStore>(context);
-    Pokemon pokemom = _pokeApiStore.getPokemom(idx);
+    _pokeApiStore.getPokemom(idx);
     return Scaffold(
-      appBar: _pokeDetailAppBar(pokemom, context),
-      backgroundColor: pokemom.getColor(),
+      appBar: _pokeDetailAppBar(_pokeApiStore, context),
       body: Stack(
         children: <Widget>[
+          Observer(
+            builder: (context) {
+              _pokeApiStore.pokemom.getColor();
+              return Container(
+                color: _pokeApiStore.pokemom.getColor(),
+              );
+            },
+          ),
           Container(
             height: MediaQuery.of(context).size.height / 3,
           ),
@@ -44,7 +51,10 @@ class PokeDetailPage extends StatelessWidget {
             child: SizedBox(
               height: 200,
               child: PageView.builder(
-                  itemCount: _pokeApiStore.pokeapi.pokemon.length,
+                  onPageChanged: (idx) {
+                    _pokeApiStore.setPokemonAtual(idx);
+                  },
+                  itemCount: _pokeApiStore.pokeApi.pokemon.length,
                   itemBuilder: (BuildContext context, int index) {
                     return UtilImage.getImg(
                         _pokeApiStore.getPokemom(index).num);
@@ -56,26 +66,31 @@ class PokeDetailPage extends StatelessWidget {
     );
   }
 
-  AppBar _pokeDetailAppBar(Pokemon pokemom, BuildContext context) {
-    return AppBar(
-      title: UIText.textPrimary(
-        pokemom.name.trim(),
-        fontSize: 21,
-      ),
-      elevation: 0,
-      backgroundColor: pokemom.getColor(),
-      leading: IconButton(
-        icon: Icon(Icons.arrow_back),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.favorite_border),
-          onPressed: () {},
-        ),
-      ],
+  Widget _pokeDetailAppBar(PokeApiStore pokeApiStore, BuildContext context) {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(50),
+      child: Observer(builder: (BuildContext context) {
+        return AppBar(
+          title: UIText.textPrimary(
+            pokeApiStore.pokemom.name.trim(),
+            fontSize: 21,
+          ),
+          elevation: 0,
+          backgroundColor: pokeApiStore.pokemom.getColor(),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.favorite_border),
+              onPressed: () {},
+            ),
+          ],
+        );
+      }),
     );
   }
 }
