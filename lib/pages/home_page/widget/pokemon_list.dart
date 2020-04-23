@@ -45,7 +45,7 @@ class PokemonList extends StatelessWidget {
                               builder: (BuildContext context) {
                                 apiStore.setPokemonAtual(idx);
                                 return PokeDetailPage(
-                                  idx: idx,
+                                  idxPokemom: idx,
                                 );
                               },
                             ),

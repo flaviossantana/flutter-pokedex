@@ -6,15 +6,28 @@ import 'package:pokedex/stores/poke_api_store.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
-class PokeDetailPage extends StatelessWidget {
-  final int idx;
+class PokeDetailPage extends StatefulWidget {
+  final int idxPokemom;
 
-  const PokeDetailPage({Key key, this.idx}) : super(key: key);
+  PokeDetailPage({this.idxPokemom});
+
+  @override
+  _PokeDetailPageState createState() => _PokeDetailPageState();
+}
+
+class _PokeDetailPageState extends State<PokeDetailPage> {
+  PageController _pgController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pgController = PageController(initialPage: widget.idxPokemom);
+  }
 
   @override
   Widget build(BuildContext context) {
     final PokeApiStore _pokeApiStore = Provider.of<PokeApiStore>(context);
-    _pokeApiStore.getPokemom(idx);
+    _pokeApiStore.getPokemom(widget.idxPokemom);
     return Scaffold(
       appBar: _pokeDetailAppBar(_pokeApiStore, context),
       body: Stack(
@@ -51,6 +64,7 @@ class PokeDetailPage extends StatelessWidget {
             child: SizedBox(
               height: 200,
               child: PageView.builder(
+                  controller: _pgController,
                   onPageChanged: (idx) {
                     _pokeApiStore.setPokemonAtual(idx);
                   },
