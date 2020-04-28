@@ -45,7 +45,7 @@ class _PokeDetailPageState extends State<PokeDetailPage> {
           ),
           SlidingSheet(
             elevation: 0,
-            cornerRadius: 16,
+            cornerRadius: 40,
             snapSpec: SnapSpec(
               snap: true,
               snappings: [0.7, 1.0],
@@ -60,7 +60,8 @@ class _PokeDetailPageState extends State<PokeDetailPage> {
               );
             },
           ),
-          Positioned(
+          Padding(
+            padding: EdgeInsets.only(top: 50),
             child: SizedBox(
               height: 200,
               child: PageView.builder(
@@ -70,8 +71,20 @@ class _PokeDetailPageState extends State<PokeDetailPage> {
                   },
                   itemCount: _pokeApiStore.pokeApi.pokemon.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return UtilImage.getImg(
-                        _pokeApiStore.getPokemom(index).num);
+                    return Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        Column(
+                          children: <Widget>[
+                            UtilImage.getImg(
+                              _pokeApiStore.getPokemom(index).num,
+                              height: 180,
+                              width: 180,
+                            ),
+                          ],
+                        )
+                      ],
+                    );
                   }),
             ),
           ),
