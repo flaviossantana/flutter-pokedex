@@ -6,18 +6,20 @@ class PokeBallBKG extends StatelessWidget {
   final double height;
   final double opacity;
   final Object tag;
+  final Alignment alignment;
 
   PokeBallBKG({
     this.width,
     this.height,
     this.opacity,
     this.tag,
+    this.alignment,
   });
 
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: Alignment.bottomRight,
+      alignment: this.alignment ?? Alignment.bottomRight,
       child: Hero(
         tag: this.tag,
         child: Opacity(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pokedex/core/UtilImage.dart';
+import 'package:pokedex/pages/widget/poke_ball_bkg.dart';
 import 'package:pokedex/resources/values/ui_text.dart';
 import 'package:pokedex/stores/poke_api_store.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +46,7 @@ class _PokeDetailPageState extends State<PokeDetailPage> {
           ),
           SlidingSheet(
             elevation: 0,
-            cornerRadius: 40,
+            cornerRadius: 30,
             snapSpec: SnapSpec(
               snap: true,
               snappings: [0.7, 1.0],
@@ -61,7 +62,7 @@ class _PokeDetailPageState extends State<PokeDetailPage> {
             },
           ),
           Padding(
-            padding: EdgeInsets.only(top: 50),
+            padding: EdgeInsets.only(top: 40),
             child: SizedBox(
               height: 200,
               child: PageView.builder(
@@ -74,14 +75,17 @@ class _PokeDetailPageState extends State<PokeDetailPage> {
                     return Stack(
                       alignment: Alignment.center,
                       children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            UtilImage.getImg(
-                              _pokeApiStore.getPokemom(index).num,
-                              height: 180,
-                              width: 180,
-                            ),
-                          ],
+                        PokeBallBKG(
+                          tag: index.toString(),
+                          alignment: Alignment.center,
+                          height: 500,
+                          width: 500,
+                          opacity: 0.2,
+                        ),
+                        UtilImage.getImg(
+                          _pokeApiStore.getPokemom(index).num,
+                          height: 160,
+                          width: 160,
                         )
                       ],
                     );
