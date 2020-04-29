@@ -5,6 +5,8 @@ import 'package:pokedex/pages/widget/poke_ball_bkg.dart';
 import 'package:pokedex/resources/values/ui_text.dart';
 import 'package:pokedex/stores/poke_api_store.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_animations/simple_animations/controlled_animation.dart';
+import 'package:simple_animations/simple_animations/multi_track_tween.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
 class PokeDetailPage extends StatefulWidget {
@@ -18,11 +20,16 @@ class PokeDetailPage extends StatefulWidget {
 
 class _PokeDetailPageState extends State<PokeDetailPage> {
   PageController _pgController;
+  MultiTrackTween _animation;
 
   @override
   void initState() {
-    super.initState();
     _pgController = PageController(initialPage: widget.idxPokemom);
+    _animation = MultiTrackTween([
+      Track("rotation").add(Duration(seconds: 5), Tween(begin: 0.0, end: 6.0),
+          curve: Curves.linear),
+    ]);
+    super.initState();
   }
 
   @override
@@ -75,12 +82,22 @@ class _PokeDetailPageState extends State<PokeDetailPage> {
                     return Stack(
                       alignment: Alignment.center,
                       children: <Widget>[
-                        PokeBallBKG(
-                          tag: index.toString(),
-                          alignment: Alignment.center,
-                          height: 500,
-                          width: 500,
-                          opacity: 0.2,
+                        ControlledAnimation(
+                          playback: Playback.LOOP,
+                          duration: _animation.duration,
+                          tween: _animation,
+                          builder: (context, animation) {
+                            return Transform.rotate(
+                              angle: animation["rotation"],
+                              child: PokeBallBKG(
+                                tag: index.toString(),
+                                alignment: Alignment.center,
+                                height: 500,
+                                width: 500,
+                                opacity: 0.2,
+                              ),
+                            );
+                          },
                         ),
                         UtilImage.getImg(
                           _pokeApiStore.getPokemom(index).num,
